@@ -1,7 +1,7 @@
 const developmentEnv = {
     type: "postgres",
     url: process.env.DATABASE_URL,
-    entities: ["./src/models/*.ts"],
+    entities: ["./src/entities/*.ts"],
     migrations: ["./src/database/migrations/*.ts"],
     cli: {
       migrationsDir: "./src/database/migrations",
