@@ -1,6 +1,8 @@
 import { hashSync } from "bcryptjs";
 import { getCustomRepository } from "typeorm";
+import User from "../entities/UserEntity";
 import { UserRepository } from "../repositories/userRepository";
+
 
 interface UserRequest {
     username: string;
@@ -9,8 +11,17 @@ interface UserRequest {
     isAdmin: boolean;
 };
 
-export class CreateUserService {
-    async execute({username, password, email, isAdmin}: UserRequest) {
+export default class CreateUserService {
+    /**
+     * Create a user.
+     * @param username - String
+     * @param password - String
+     * @param email - String
+     * @param isAdmin - Boolean
+     * 
+     * @returns Promise<User>
+     */
+    async execute({username, password, email, isAdmin}: UserRequest): Promise<User> {
         
         const userRepository = getCustomRepository(UserRepository);
 
