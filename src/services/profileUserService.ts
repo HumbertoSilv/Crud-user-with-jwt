@@ -1,20 +1,19 @@
+import { Request } from "express";
 import { getCustomRepository } from "typeorm";
 import { UserRepository } from "../repositories/userRepository";
 
 
-export default class DeleteUserService {
+export default class ProfileUserService {
     /**
-     * Deletes a user whose ID is passed as a parameter.
+     * Search user by ID passed as parameter
      * @param userId 
      * @returns 
      */
     async execute(userId: string) {
         const userRepository = getCustomRepository(UserRepository);
 
-        await userRepository.delete(userId);
+        const userProfile = await userRepository.findOne(userId);
 
-        return {
-            message: "User deleted with success."
-        };
+        return userProfile;
     };
 };

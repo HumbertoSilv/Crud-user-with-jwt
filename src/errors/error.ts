@@ -21,7 +21,7 @@ export const handleError = (error: any, response: Response) => {
 
     if(error instanceof AppError) {
         return response.status(statusCode).json({
-            status: "Error.",
+            status: "Error",
             statusCode,
             message
         });

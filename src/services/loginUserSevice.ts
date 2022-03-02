@@ -29,15 +29,11 @@ export default class LoginUserService {
 
         const user = await userRepository.findOne({username});
         
-        if(!user) {
-            throw new AppError(400, "User not found.");
-        };
+        if(!user) throw new AppError(400, "User not found.");
 
         const validPassword = await compare(password, user.password);
 
-        if(!validPassword) {
-            throw new AppError(403, "Incorrect password/email combination.");
-        };
+        if(!validPassword) throw new AppError(403, "Incorrect password/email combination.");
 
         const { expiresIn, secret } = jwtConfig.jwt;
 
