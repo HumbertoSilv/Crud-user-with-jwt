@@ -10,21 +10,27 @@ import { UserRepository } from "../repositories/userRepository";
  * @param response 
  * @param next 
  */
-export const checkUserDelete = async (
+export const checkPermissionOrAdm = async (
     request: Request,
     response: Response,
     next: NextFunction) => {
 
     const userRepository = getCustomRepository(UserRepository);
 
-    const user = await userRepository.findOne(request.user.id);
-    const urlId = await userRepository.findOne(request.params.user_id);
+    try{
+        const user = await userRepository.findOne(request.user.id);
+        const urlId = await userRepository.findOne(request.params.user_id);
 
-    if(!urlId) throw new AppError(404, "ID not found.");
+        if(!urlId) throw new AppError(404, "ID not found.");
 
-    if(user?.uuid !== urlId.uuid && user?.isAdmin == false) {
-        throw new AppError(403, "Admin only feature.");
+        if(user?.uuid !== urlId.uuid && user?.isAdmin == false) {
+            throw new AppError(403, "Admin only feature.");
+        };
+        
+        next();
+
+    }catch{
+        throw new AppError(400, "The ID format passed is incorrect.")
     };
-     
-    next();
+    
 };
